@@ -184,8 +184,7 @@ updateProductControls();
 
 // --- GOOGLE SHEETS RENDELÉS BEKÜLDÉSE ---
 
-// ⚠️ IDE MÁSOLD BE A GOOGLE APPS SCRIPT-BEN KAPOTT URL-T!
-const GOOGLE_SCRIPT_URL = "IDE_ILLESZD_BE_A_GOOGLE_SCRIPT_URL-T";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlICbw85kPZuvxMhbopWrKeZ7a8d_3LdkjzebBhqFpocqUnfu63B2p7Ic1zKGjMb4Y/exec";
 
 const checkoutForm = document.querySelector("#checkoutForm");
 const formNote = document.querySelector("#formNote");
