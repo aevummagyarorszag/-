@@ -182,17 +182,64 @@ renderCheckoutCart();
 updateCartCount();
 updateProductControls();
 
+// --- GOOGLE SHEETS RENDELÉS BEKÜLDÉSE ---
+
+// ⚠️ IDE MÁSOLD BE A GOOGLE APPS SCRIPT-BEN KAPOTT URL-T!
+const GOOGLE_SCRIPT_URL = "IDE_ILLESZD_BE_A_GOOGLE_SCRIPT_URL-T";
+
 const checkoutForm = document.querySelector("#checkoutForm");
 const formNote = document.querySelector("#formNote");
 
 if (checkoutForm && formNote) {
   checkoutForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    
+    const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Feldolgozás...";
+    }
+
     const formData = new FormData(checkoutForm);
     const buyerName = String(formData.get("name") || "Vásárló").trim() || "Vásárló";
-    sessionStorage.setItem("aevumBuyerName", buyerName);
-    localStorage.removeItem("aevumCart");
-    window.location.href = `thankyou.html?nev=${encodeURIComponent(buyerName)}`;
+    
+    // Kosár tartalmának összeállítása egy szöveggé a táblázat számára
+    const cart = getCart();
+    const orderedWatches = Object.entries(cart)
+      .filter(([id, quantity]) => products[id] && quantity > 0)
+      .map(([id, quantity]) => `${products[id].name} (${quantity}db)`)
+      .join(", ");
+
+    const orderPayload = {
+      name: buyerName,
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      address: formData.get("address"),
+      watchModel: orderedWatches || "Nincs megadva"
+    };
+
+    // Adatok küldése a Google Táblázatnak
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderPayload)
+    })
+    .then(() => {
+      sessionStorage.setItem("aevumBuyerName", buyerName);
+      localStorage.removeItem("aevumCart");
+      window.location.href = `thankyou.html?nev=${encodeURIComponent(buyerName)}`;
+    })
+    .catch((error) => {
+      console.error("Hiba történt:", error);
+      alert("Hiba történt a rendelés beküldésekor. Kérjük, próbáld újra!");
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Rendelés elküldése";
+      }
+    });
   });
 }
 
