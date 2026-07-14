@@ -25,7 +25,7 @@
       <div class="checkout-copy reveal">
         <p class="eyebrow">Pénztár</p>
         <h1>Rendelés</h1>
-        <p class="hero-text">Add meg az adataidat, és előkészítjük az Aevum órád kiszállítását.</p>
+        <p class="hero-text">Add meg az adataidat!</p>
       </div>
 
       <form class="checkout-form reveal" id="checkoutForm">
@@ -36,6 +36,21 @@
           </div>
           <div class="cart-items" id="cartItems" aria-live="polite"></div>
           <a class="bubble-button small" href="index.html#collection">További órák hozzáadása</a>
+          <div class="discount-panel" id="discountPanel">
+            <div class="discount-choice-row">
+              <button class="bubble-button small discount-choice" type="button" data-discount-type="student">Diák vagyok</button>
+              <button class="bubble-button small discount-choice" type="button" data-discount-type="coupon">Kuponnal rendelkezem</button>
+            </div>
+
+            <div class="discount-entry" id="discountEntry" aria-live="polite">
+              <div class="discount-input-row">
+                <input type="text" id="discountCode" name="discountCode" autocomplete="off" placeholder="Írd be az azonosítót">
+                <button class="bubble-button primary small" type="button" id="discountActivate">Aktiválás</button>
+              </div>
+              <p class="discount-message" id="discountMessage"></p>
+              <p class="discount-badge" id="discountBadge">-10%</p>
+            </div>
+          </div>
         </div>
 
         <label>
@@ -43,10 +58,25 @@
           <input type="text" name="name" autocomplete="name" placeholder="Teljes név" required>
         </label>
 
-        <label>
-          Szállítási cím
-          <textarea name="address" rows="4" autocomplete="shipping street-address" placeholder="Irányítószám, város, utca, házszám" required></textarea>
-        </label>
+        <div class="address-fields">
+          <p class="field-note">Csak belföldre szállítunk.</p>
+          <div class="form-row">
+            <label>
+              Irányítószám
+              <input type="text" name="zip" inputmode="numeric" autocomplete="shipping postal-code" placeholder="1051" required>
+            </label>
+
+            <label>
+              Város
+              <input type="text" name="city" autocomplete="shipping address-level2" placeholder="Budapest" required>
+            </label>
+          </div>
+
+          <label>
+            Utca, házszám
+            <input type="text" name="street" autocomplete="shipping street-address" placeholder="Példa utca 12." required>
+          </label>
+        </div>
 
         <div class="form-row">
           <label>
@@ -61,7 +91,7 @@
         </div>
 
         <button class="bubble-button primary checkout-submit" type="submit">Rendelés elküldése</button>
-        <p class="form-note" id="formNote" aria-live="polite">A gomb jelenleg bemutatóként működik, fizetést még nem indít.</p>
+        <p class="form-note" id="formNote" aria-live="polite">A rendelés elküldése után az e-mail címedre fog érkezni a számla.</p>
       </form>
     </section>
   </main>
