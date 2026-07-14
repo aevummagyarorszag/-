@@ -182,9 +182,9 @@ renderCheckoutCart();
 updateCartCount();
 updateProductControls();
 
-// --- GOOGLE SHEETS RENDELÉS BEKÜLDÉSE ---
+// --- GOOGLE SHEETS RENDELÉS BEKÜLDÉSE ÉS AUTOMATIKUS E-MAIL ---
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxlICbw85kPZuvxMhbopWrKeZ7a8d_3LdkjzebBhqFpocqUnfu63B2p7Ic1zKGjMb4Y/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTMMw_rhNJ3bGV3tsEQTWLdxpTU4o9uy5BVgwW90wcjolw_npbBEDvMTgNgXQUoBXG/exec";
 
 const checkoutForm = document.querySelector("#checkoutForm");
 const formNote = document.querySelector("#formNote");
@@ -202,7 +202,7 @@ if (checkoutForm && formNote) {
     const formData = new FormData(checkoutForm);
     const buyerName = String(formData.get("name") || "Vásárló").trim() || "Vásárló";
     
-    // Kosár tartalmának összeállítása egy szöveggé a táblázat számára
+    // Kosár tartalmának összeállítása a táblázat és az e-mail számára
     const cart = getCart();
     const orderedWatches = Object.entries(cart)
       .filter(([id, quantity]) => products[id] && quantity > 0)
@@ -217,7 +217,7 @@ if (checkoutForm && formNote) {
       watchModel: orderedWatches || "Nincs megadva"
     };
 
-    // Adatok küldése a Google Táblázatnak
+    // Adatok küldése a Google Scriptnek (Google Sheet rögzítés + E-mail küldés)
     fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
       mode: "no-cors",
