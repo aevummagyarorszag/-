@@ -1,8 +1,11 @@
 const products = {
-  mono: { name: "Aevum Mono", price: 159000 },
-  noct: { name: "Aevum Noct", price: 189000 },
-  sol: { name: "Aevum Sol", price: 169000 }
+  mono: { name: "Aevum Mono", price: 8990 },
+  noct: { name: "Aevum Noct", price: 8990 },
+  sol: { name: "Aevum Sol", price: 8990 }
 };
+
+const shippingFee = 1390;
+const studentDiscountRate = 0.1;
 
 const formatPrice = (value) => `${value.toLocaleString("hu-HU")} Ft`;
 
@@ -48,6 +51,30 @@ const addToCart = (productId) => {
   updateProductControls();
 };
 
+const removeOneFromCart = (productId) => {
+  const cart = getCart();
+  if (!cart[productId]) return;
+
+  cart[productId] -= 1;
+  if (cart[productId] <= 0) {
+    delete cart[productId];
+  }
+
+  saveCart(cart);
+  updateCartCount();
+  updateProductControls();
+  renderCheckoutCart();
+};
+
+const removeProductFromCart = (productId) => {
+  const cart = getCart();
+  delete cart[productId];
+  saveCart(cart);
+  updateCartCount();
+  updateProductControls();
+  renderCheckoutCart();
+};
+
 const revealItems = document.querySelectorAll(".reveal");
 
 const observer = new IntersectionObserver(
@@ -80,6 +107,9 @@ document.querySelectorAll(".bubble-button").forEach((button) => {
     button.classList.remove("pop");
     void button.offsetWidth;
     button.classList.add("pop");
+    window.setTimeout(() => {
+      button.classList.remove("pop");
+    }, 430);
   });
 });
 
@@ -116,17 +146,37 @@ document.querySelectorAll("[data-plus-product]").forEach((button) => {
   });
 });
 
+document.querySelectorAll("[data-minus-product]").forEach((button) => {
+  button.addEventListener("click", () => {
+    removeOneFromCart(button.dataset.minusProduct);
+  });
+});
+
 const scrollHour = document.querySelector("[data-scroll-hour]");
 const scrollMinute = document.querySelector("[data-scroll-minute]");
+const scrollWatch = document.querySelector("[data-scroll-watch]");
 
 const moveWatchHands = () => {
-  if (!scrollHour || !scrollMinute) return;
   const maxScroll = document.documentElement.scrollHeight - window.innerHeight || 1;
   const progress = window.scrollY / maxScroll;
-  const minuteRotation = 42 + progress * 720;
-  const hourRotation = 315 + progress * 180;
-  scrollMinute.style.transform = `translateX(-50%) rotate(${minuteRotation}deg)`;
-  scrollHour.style.transform = `translateX(-50%) rotate(${hourRotation}deg)`;
+
+  if (scrollHour && scrollMinute) {
+    const minuteRotation = 42 + progress * 720;
+    const hourRotation = 315 + progress * 180;
+    scrollMinute.style.transform = `translateX(-50%) rotate(${minuteRotation}deg)`;
+    scrollHour.style.transform = `translateX(-50%) rotate(${hourRotation}deg)`;
+  }
+
+  if (scrollWatch) {
+    const watchY = Math.round(progress * -34);
+    const watchRotate = (progress * 7 - 2).toFixed(2);
+    const featureMinuteRotation = 42 + progress * 900;
+    const featureHourRotation = 310 + progress * 240;
+    scrollWatch.style.setProperty("--watch-scroll-y", `${watchY}px`);
+    scrollWatch.style.setProperty("--watch-scroll-rotate", `${watchRotate}deg`);
+    scrollWatch.style.setProperty("--feature-minute-rotation", `${featureMinuteRotation}deg`);
+    scrollWatch.style.setProperty("--feature-hour-rotation", `${featureHourRotation}deg`);
+  }
 };
 
 window.addEventListener("scroll", moveWatchHands, { passive: true });
@@ -134,6 +184,72 @@ moveWatchHands();
 
 const cartItems = document.querySelector("#cartItems");
 const cartTotal = document.querySelector("#cartTotal");
+const discountPanel = document.querySelector("#discountPanel");
+const discountChoices = document.querySelectorAll("[data-discount-type]");
+const discountCode = document.querySelector("#discountCode");
+const discountActivate = document.querySelector("#discountActivate");
+const discountMessage = document.querySelector("#discountMessage");
+let selectedDiscountType = "";
+let discountApplied = false;
+
+const hasStudentDiscount = () => discountApplied;
+
+const setDiscountMessage = (message, type = "") => {
+  if (!discountMessage) return;
+  discountMessage.textContent = message;
+  discountMessage.classList.toggle("error", type === "error");
+  discountMessage.classList.toggle("success", type === "success");
+};
+
+const resetDiscountActivation = () => {
+  discountApplied = false;
+  if (discountPanel) discountPanel.classList.remove("applied");
+  renderCheckoutCart();
+};
+
+const openDiscountMode = (type) => {
+  selectedDiscountType = type;
+  resetDiscountActivation();
+  if (!discountPanel || !discountCode) return;
+
+  discountPanel.classList.add("open");
+  discountChoices.forEach((button) => {
+    button.classList.toggle("active", button.dataset.discountType === type);
+  });
+
+  discountCode.value = "";
+  discountCode.placeholder = type === "student" ? "Di\u00e1kigazolv\u00e1ny sz\u00e1m" : "Kuponk\u00f3d";
+  setDiscountMessage("");
+  discountCode.focus();
+};
+
+const activateDiscount = () => {
+  if (!discountCode || !selectedDiscountType || !discountPanel) return;
+  const value = discountCode.value.trim();
+  const isValid = selectedDiscountType === "student" ? [10, 11].includes(value.length) : value === "KUPON10";
+
+  if (!isValid) {
+    discountApplied = false;
+    discountPanel.classList.remove("applied");
+    setDiscountMessage(selectedDiscountType === "student" ? "\u00c9rv\u00e9nytelen di\u00e1kigazolv\u00e1ny sz\u00e1m." : "\u00c9rv\u00e9nytelen kuponk\u00f3d.", "error");
+    renderCheckoutCart();
+    return;
+  }
+
+  discountApplied = true;
+  discountPanel.classList.add("applied");
+  setDiscountMessage("Kedvezm\u00e9ny aktiv\u00e1lva.", "success");
+  renderCheckoutCart();
+};
+
+if (discountPanel && discountCode && discountActivate) {
+  discountChoices.forEach((button) => {
+    button.addEventListener("click", () => openDiscountMode(button.dataset.discountType));
+  });
+
+  discountCode.addEventListener("input", resetDiscountActivation);
+  discountActivate.addEventListener("click", activateDiscount);
+}
 
 const addQueryProductToCart = () => {
   const params = new URLSearchParams(window.location.search);
@@ -153,7 +269,10 @@ const renderCheckoutCart = () => {
   addQueryProductToCart();
   const cart = getCart();
   const entries = Object.entries(cart).filter(([id, quantity]) => products[id] && quantity > 0);
-  const total = entries.reduce((sum, [id, quantity]) => sum + products[id].price * quantity, 0);
+  const subtotal = entries.reduce((sum, [id, quantity]) => sum + products[id].price * quantity, 0);
+  const discount = hasStudentDiscount() ? Math.round(subtotal * studentDiscountRate) : 0;
+  const shipping = entries.length > 0 ? shippingFee : 0;
+  const total = subtotal - discount + shipping;
 
   cartTotal.textContent = formatPrice(total);
 
@@ -172,19 +291,43 @@ const renderCheckoutCart = () => {
             <span>${quantity} db x ${formatPrice(product.price)}</span>
           </div>
           <strong>${formatPrice(product.price * quantity)}</strong>
+          <button class="bubble-button cart-remove" type="button" data-remove-product="${id}" aria-label="${product.name} törlése a kosárból">
+            <span class="trash-icon" aria-hidden="true"></span>
+          </button>
         </div>
       `;
     })
-    .join("");
+    .join("") + `
+      <div class="cart-line">
+        <span>Órák összesen</span>
+        <strong>${formatPrice(subtotal)}</strong>
+      </div>
+      ${discount > 0 ? `
+      <div class="cart-line discount-line">
+        <span>${selectedDiscountType === "coupon" ? "Kupon" : "Diákkedvezmény"} <em>-10%</em></span>
+        <strong>-${formatPrice(discount)}</strong>
+      </div>
+      ` : ""}
+      <div class="cart-line">
+        <span>Szállítási díj</span>
+        <strong>${formatPrice(shipping)}</strong>
+      </div>
+      <div class="cart-line cart-total-line">
+        <span>Összesen</span>
+        <strong>${formatPrice(total)}</strong>
+      </div>
+    `;
+
+  cartItems.querySelectorAll("[data-remove-product]").forEach((button) => {
+    button.addEventListener("click", () => {
+      removeProductFromCart(button.dataset.removeProduct);
+    });
+  });
 };
 
 renderCheckoutCart();
 updateCartCount();
 updateProductControls();
-
-// --- GOOGLE SHEETS RENDELÉS BEKÜLDÉSE ÉS AUTOMATIKUS E-MAIL ---
-
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTMMw_rhNJ3bGV3tsEQTWLdxpTU4o9uy5BVgwW90wcjolw_npbBEDvMTgNgXQUoBXG/exec";
 
 const checkoutForm = document.querySelector("#checkoutForm");
 const formNote = document.querySelector("#formNote");
@@ -192,53 +335,21 @@ const formNote = document.querySelector("#formNote");
 if (checkoutForm && formNote) {
   checkoutForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    
-    const submitBtn = checkoutForm.querySelector('button[type="submit"]');
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Feldolgozás...";
+    if (!checkoutForm.reportValidity()) {
+      return;
+    }
+
+    const cartHasItems = Object.values(getCart()).some((quantity) => quantity > 0);
+    if (!cartHasItems) {
+      formNote.textContent = "A rendelés elküldéséhez először adj hozzá legalább egy órát a kosárhoz.";
+      return;
     }
 
     const formData = new FormData(checkoutForm);
     const buyerName = String(formData.get("name") || "Vásárló").trim() || "Vásárló";
-    
-    // Kosár tartalmának összeállítása a táblázat és az e-mail számára
-    const cart = getCart();
-    const orderedWatches = Object.entries(cart)
-      .filter(([id, quantity]) => products[id] && quantity > 0)
-      .map(([id, quantity]) => `${products[id].name} (${quantity}db)`)
-      .join(", ");
-
-    const orderPayload = {
-      name: buyerName,
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      address: formData.get("address"),
-      watchModel: orderedWatches || "Nincs megadva"
-    };
-
-    // Adatok küldése a Google Scriptnek (Google Sheet rögzítés + E-mail küldés)
-    fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(orderPayload)
-    })
-    .then(() => {
-      sessionStorage.setItem("aevumBuyerName", buyerName);
-      localStorage.removeItem("aevumCart");
-      window.location.href = `thankyou.html?nev=${encodeURIComponent(buyerName)}`;
-    })
-    .catch((error) => {
-      console.error("Hiba történt:", error);
-      alert("Hiba történt a rendelés beküldésekor. Kérjük, próbáld újra!");
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Rendelés elküldése";
-      }
-    });
+    sessionStorage.setItem("aevumBuyerName", buyerName);
+    localStorage.removeItem("aevumCart");
+    window.location.href = `thankyou.html?nev=${encodeURIComponent(buyerName)}`;
   });
 }
 
@@ -248,6 +359,6 @@ if (thanksMessage) {
   const params = new URLSearchParams(window.location.search);
   const buyerName = params.get("nev") || sessionStorage.getItem("aevumBuyerName") || "";
   const greeting = buyerName ? `Köszönjük, ${buyerName}!` : "Köszönjük!";
-  thanksMessage.textContent = `${greeting} A rendelési adatokat rögzítettük, és hamarosan felvesszük veled a kapcsolatot.`;
+  thanksMessage.textContent = `${greeting} A rendelési adatokat rögzítettük, az email címedre elküldtük a számlát.`;
   updateCartCount();
 }
