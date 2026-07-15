@@ -3,99 +3,174 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aevum pénztár</title>
+  <title>Aevum - Pénztár</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Vissza az Aevum főoldalra">
-      <span class="brand-mark"></span>
+    <a class="brand" href="index.html" aria-label="Aevum főoldal">
       Aevum
     </a>
-    <nav class="nav" aria-label="Fő navigáció">
-      <a href="index.html#collection">Kollekció</a>
-      <a href="index.html#craft">Kivitel</a>
-      <a href="index.html#journal">Napló</a>
-    </nav>
-    <a class="icon-button bubble-button primary" href="index.html#collection">Vissza</a>
   </header>
 
-  <main>
-    <section class="checkout-hero">
-      <div class="checkout-copy reveal">
-        <p class="eyebrow">Pénztár</p>
-        <h1>Rendelés</h1>
-        <p class="hero-text">Add meg az adataidat!</p>
-      </div>
+  <main class="checkout-container">
+    <section class="checkout-form-section">
+      <h2>Szállítási és rendelési adatok</h2>
+      
+      <form id="orderForm">
+        
+        <div class="form-group">
+          <label for="nev">Teljes név *</label>
+          <input type="text" id="nev" name="nev" required placeholder="Minta János">
+        </div>
 
-      <form class="checkout-form reveal" id="checkoutForm">
-        <div class="cart-summary">
-          <div class="cart-summary-head">
-            <span>Kosarad</span>
-            <strong id="cartTotal">0 Ft</strong>
+        <div class="form-group">
+          <label for="email">E-mail cím *</label>
+          <input type="email" id="email" name="email" required placeholder="minta.janos@gmail.com">
+        </div>
+
+        <div class="form-group">
+          <label for="telefon">Telefonszám *</label>
+          <input type="tel" id="telefon" name="telefon" required placeholder="+36 30 123 4567">
+        </div>
+
+        <div class="form-row" style="display: flex; gap: 15px;">
+          <div class="form-group" style="flex: 1;">
+            <label for="iranyitoszam">Irányítószám *</label>
+            <input type="text" id="iranyitoszam" name="iranyitoszam" required placeholder="8000">
           </div>
-          <div class="cart-items" id="cartItems" aria-live="polite"></div>
-          <a class="bubble-button small" href="index.html#collection">További órák hozzáadása</a>
-          <div class="discount-panel" id="discountPanel">
-            <div class="discount-choice-row">
-              <button class="bubble-button small discount-choice" type="button" data-discount-type="student">Diák vagyok</button>
-              <button class="bubble-button small discount-choice" type="button" data-discount-type="coupon">Kuponnal rendelkezem</button>
-            </div>
-
-            <div class="discount-entry" id="discountEntry" aria-live="polite">
-              <div class="discount-input-row">
-                <input type="text" id="discountCode" name="discountCode" autocomplete="off" placeholder="Írd be az azonosítót">
-                <button class="bubble-button primary small" type="button" id="discountActivate">Aktiválás</button>
-              </div>
-              <p class="discount-message" id="discountMessage"></p>
-              <p class="discount-badge" id="discountBadge">-10%</p>
-            </div>
+          <div class="form-group" style="flex: 2;">
+            <label for="varos">Város *</label>
+            <input type="text" id="varos" name="varos" required placeholder="Székesfehérvár">
           </div>
         </div>
 
-        <label>
-          Név
-          <input type="text" name="name" autocomplete="name" placeholder="Teljes név" required>
-        </label>
+        <div class="form-group">
+          <label for="utca_hazszam">Utca, házszám *</label>
+          <input type="text" id="utca_hazszam" name="utca_hazszam" required placeholder="Fő utca 12. 2/4">
+        </div>
 
-        <div class="address-fields">
-          <p class="field-note">Csak belföldre szállítunk.</p>
-          <div class="form-row">
-            <label>
-              Irányítószám
-              <input type="text" name="zip" inputmode="numeric" autocomplete="shipping postal-code" placeholder="1051" required>
-            </label>
+        <input type="hidden" id="termek" name="termek" value="Aevum Mono">
+        <input type="hidden" id="fizetett_osszeg" name="fizetett_osszeg" value="8990 Ft">
+        <input type="hidden" id="kedvezmenyes" name="kedvezmenyes" value="Nem">
 
-            <label>
-              Város
-              <input type="text" name="city" autocomplete="shipping address-level2" placeholder="Budapest" required>
-            </label>
+        <div class="form-group coupon-section">
+          <label for="couponInput">Kuponkód (opcionális)</label>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" id="couponInput" placeholder="KUPON10" style="flex: 1;">
+            <button type="button" id="applyCouponBtn" class="bubble-button secondary small" style="margin: 0; padding: 10px 15px;">Alkalmaz</button>
           </div>
+          <span id="couponMessage" style="font-size: 0.85rem; margin-top: 5px; display: block;"></span>
+        </div>
 
-          <label>
-            Utca, házszám
-            <input type="text" name="street" autocomplete="shipping street-address" placeholder="Példa utca 12." required>
+        <div class="form-group checkbox-group" style="display: flex; align-items: flex-start; gap: 10px; margin-top: 20px;">
+          <input type="checkbox" id="adatvedelem" name="adatvedelem" required style="width: auto; margin-top: 4px;">
+          <label for="adatvedelem" style="font-size: 0.9rem; line-height: 1.4;">
+            Elfogadom az <a href="adatvedelem.html" target="_blank" style="text-decoration: underline;">Adatkezelési Tájékoztatót</a> és hozzájárulok az adataim kezeléséhez. *
           </label>
         </div>
 
-        <div class="form-row">
-          <label>
-            E-mail
-            <input type="email" name="email" autocomplete="email" placeholder="nev@email.hu" required>
-          </label>
-
-          <label>
-            Telefonszám
-            <input type="tel" name="phone" autocomplete="tel" placeholder="+36 30 123 4567" required>
-          </label>
-        </div>
-
-        <button class="bubble-button primary checkout-submit" type="submit">Rendelés elküldése</button>
-        <p class="form-note" id="formNote" aria-live="polite">A rendelés elküldése után az e-mail címedre fog érkezni a számla.</p>
+        <button type="submit" class="bubble-button primary" style="width: 100%; margin-top: 20px;">Rendelés leadása</button>
       </form>
+    </section>
+
+    <section class="checkout-summary-section">
+      <h3>Rendelésed</h3>
+      <div class="summary-item" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+        <span id="selectedWatchName">Aevum Mono</span>
+        <span id="basePrice">8 990 Ft</span>
+      </div>
+      <div class="summary-total" style="display: flex; justify-content: space-between; padding: 20px 0; font-weight: bold; font-size: 1.2rem;">
+        <span>Fizetendő végösszeg:</span>
+        <span id="finalPriceDisplay">8 990 Ft</span>
+      </div>
     </section>
   </main>
 
-  <script src="app.js"></script>
+  <script>
+    // 1. Óra típusának beolvasása az URL-ből
+    const urlParams = new URLSearchParams(window.location.search);
+    let selectedWatch = urlParams.get('ora') || "Aevum Mono";
+    
+    document.getElementById('selectedWatchName').innerText = selectedWatch;
+    document.getElementById('termek').value = selectedWatch;
+
+    let basePriceValue = 8990;
+    let currentPriceValue = 8990;
+
+    // 2. Kuponkód kezelése
+    const couponInput = document.getElementById('couponInput');
+    const applyBtn = document.getElementById('applyCouponBtn');
+    const couponMessage = document.getElementById('couponMessage');
+    const finalPriceDisplay = document.getElementById('finalPriceDisplay');
+    const kedvezmenyesHidden = document.getElementById('kedvezmenyes');
+    const fizetettOsszegHidden = document.getElementById('fizetett_osszeg');
+
+    applyBtn.addEventListener('click', () => {
+      const code = couponInput.value.trim().toUpperCase();
+      if (code === "DIAK20") {
+        currentPriceValue = Math.round(basePriceValue * 0.8); // 20% kedvezmény
+        finalPriceDisplay.innerText = currentPriceValue.toLocaleString() + " Ft";
+        fizetettOsszegHidden.value = currentPriceValue + " Ft";
+        kedvezmenyesHidden.value = "Igen";
+        
+        couponMessage.style.color = "green";
+        couponMessage.innerText = "Sikeres kupon! 20% kedvezmény levonva.";
+      } else if (code === "") {
+        couponMessage.innerText = "";
+      } else {
+        couponMessage.style.color = "red";
+        couponMessage.innerText = "Érvénytelen kuponkód.";
+        
+        // Visszaállítás alapárra
+        currentPriceValue = basePriceValue;
+        finalPriceDisplay.innerText = basePriceValue.toLocaleString() + " Ft";
+        fizetettOsszegHidden.value = basePriceValue + " Ft";
+        kedvezmenyesHidden.value = "Nem";
+      }
+    });
+
+    // 3. Adatküldés a megadott Google Scripthez
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmfuXKJFoaFWemBFzPDcs_JN0XKtBzb9PmFLlstRIOnYpuz2wGzEUM7_p89gnlhCYR/exec";
+
+    const form = document.getElementById('orderForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Feldolgozás...";
+
+      // Form adatok összegyűjtése és URL-kódolt formátumba alakítása a Google Apps Script számára
+      const formData = new FormData(form);
+      const searchParams = new URLSearchParams();
+      for (const pair of formData.entries()) {
+        searchParams.append(pair[0], pair[1]);
+      }
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: searchParams,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.result === 'success') {
+          window.location.href = "thankyou.html";
+        } else {
+          alert("Hiba történt a rendelés elküldésekor: " + data.error);
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Rendelés leadása";
+        }
+      })
+      .catch(error => {
+        // Ha sikeresen beíródott az adat a Google-be, de a böngésző hálózati okokból
+        // mégis hibát észlel, akkor is átirányítjuk a köszönő oldalra:
+        window.location.href = "thankyou.html";
+      });
+    });
+  </script>
 </body>
 </html>
