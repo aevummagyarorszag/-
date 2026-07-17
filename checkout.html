@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aevum pénztár</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Vissza az Aevum főoldalra">
+      <span class="brand-mark"></span>
+      Aevum
+    </a>
+    <nav class="nav" aria-label="Fő navigáció">
+      <a href="index.html#collection">Kollekció</a>
+      <a href="index.html#craft">Kivitel</a>
+      <a href="index.html#journal">Napló</a>
+      <a href="index.html#contact">Kapcsolat</a>
+    </nav>
+    <a class="icon-button bubble-button primary" href="index.html#collection">Vissza</a>
+  </header>
+
+  <main>
+    <section class="checkout-hero">
+      <div class="checkout-copy reveal">
+        <p class="eyebrow">Pénztár</p>
+        <h1>Rendelés</h1>
+        <p class="hero-text">Add meg az adataidat!</p>
+      </div>
+
+      <form class="checkout-form reveal" id="checkoutForm">
+        <div class="cart-summary">
+          <div class="cart-items" id="cartItems" aria-live="polite"></div>
+          <a class="bubble-button small" href="index.html#collection">További órák hozzáadása</a>
+          <div class="discount-panel" id="discountPanel">
+            <div class="discount-choice-row">
+              <button class="bubble-button small discount-choice" type="button" data-discount-type="student">Diák vagyok</button>
+              <button class="bubble-button small discount-choice" type="button" data-discount-type="coupon">Kuponnal rendelkezem</button>
+            </div>
+
+            <div class="discount-entry" id="discountEntry" aria-live="polite">
+              <div class="discount-input-row">
+                <input type="text" id="discountCode" name="discountCode" autocomplete="off" placeholder="Írd be az azonosítót">
+                <button class="bubble-button primary small" type="button" id="discountActivate">Aktiválás</button>
+              </div>
+              <p class="discount-message" id="discountMessage"></p>
+              <p class="discount-badge" id="discountBadge">-10%</p>
+            </div>
+          </div>
+        </div>
+
+        <label>
+          Név
+          <input type="text" name="name" autocomplete="name" placeholder="Teljes név" required>
+        </label>
+
+        <div class="address-fields">
+          <p class="field-note">Csak belföldre szállítunk.</p>
+          <p class="field-note">A házhozszállítás várhatóan 2-5 munkanap.</p>
+          <div class="form-row">
+            <label>
+              Irányítószám
+              <input type="text" name="zip" inputmode="numeric" autocomplete="shipping postal-code" placeholder="1051" required>
+            </label>
+
+            <label>
+              Város
+              <input type="text" name="city" autocomplete="shipping address-level2" placeholder="Budapest" required>
+            </label>
+          </div>
+
+          <label>
+            Utca, házszám
+            <input type="text" name="street" autocomplete="shipping street-address" placeholder="Példa utca 12." required>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>
+            E-mail
+            <input type="email" name="email" autocomplete="email" placeholder="nev@email.hu" required>
+          </label>
+
+          <label>
+            Telefonszám
+            <input type="tel" name="phone" autocomplete="tel" placeholder="+36 30 123 4567" required>
+          </label>
+        </div>
+
+        <div class="privacy-consent">
+          <input type="checkbox" id="privacyConsent" name="privacyConsent" required>
+          <span>
+            <label for="privacyConsent">Elfogadom az</label>
+            <button class="privacy-link" type="button" id="privacyOpen" data-open-privacy>Adatkezelési Tájékoztatót</button>
+            <label for="privacyConsent">és hozzájárulok az adataim kezeléséhez.</label>
+          </span>
+        </div>
+
+        <button class="bubble-button primary checkout-submit" type="submit">Rendelés elküldése</button>
+        <p class="form-note" id="formNote" aria-live="polite">A rendelés elküldése után az e-mail címedre fog érkezni a számla. Ezzel a gomb megnyomásával még fizetés nem történik.</p>
+      </form>
+    </section>
+  </main>
+
+  <div class="privacy-modal" id="privacyModal" hidden>
+    <div class="privacy-modal-backdrop" data-privacy-close></div>
+    <section class="privacy-dialog" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+      <button class="privacy-close" type="button" id="privacyClose" data-close-privacy aria-label="Bezárás">×</button>
+      <h2 id="privacyTitle">Adatkezelési Tájékoztató</h2>
+      <div class="privacy-text">
+        <h3>Bevezetés</h3>
+        <p>Jelen adatkezelési tájékoztató célja, hogy a weboldal látogatói és vásárlói átlátható, egyértelmű információt kapjanak arról, hogyan kezeljük személyes adataikat a GDPR (Általános Adatvédelmi Rendelet) és a hazai jogszabályok előírásainak megfelelően.</p>
+
+        <h3>1. Kezelt adatok köre és az adatkezelés célja</h3>
+        <p>Webáruházunkban történő vásárlás során az alábbi személyes adatokat kezeljük:</p>
+        <p>Vásárlói adatok: Név, szállítási és számlázási cím (irányítószám, város, utca, házszám), e-mail cím, telefonszám.</p>
+        <p>Rendelési adatok: A vásárolt termék megnevezése, a fizetett végösszeg, a rendelés időpontja.</p>
+        <p>Az adatkezelés célja: A megrendelés teljesítése, a számla kiállítása, a csomag kézbesítése (futárszolgálat részére történő átadás), valamint a vásárló tájékoztatása a rendelés státuszáról.</p>
+
+        <h3>2. Az adatkezelés jogalapja</h3>
+        <p>Az adatkezelés jogalapja a vásárlóval kötött szerződés teljesítése (GDPR 6. cikk (1) bek. b) pont), valamint a hatályos számviteli jogszabályoknak való megfelelés (GDPR 6. cikk (1) bek. c) pont), amely a számla megőrzésére kötelez minket.</p>
+
+        <h3>3. Adatfeldolgozók (Partnerek)</h3>
+        <p>A megrendelések teljesítéséhez az alábbi külső szolgáltatók adatfeldolgozóként férhetnek hozzá az adatokhoz:</p>
+        <p>GitHub Inc. (USA): A weboldal tárhelyszolgáltatója.</p>
+        <p>Google LLC (USA): Az űrlapok feldolgozása és a rendelési adatok tárolása (Google Sheets).</p>
+        <p>KBOSS.hu Kft. (Számlázz.hu): Számlázási adatok tárolása és számla kiállítása.</p>
+        <p>GLS General Logistics Systems Hungary Kft.: A csomag kézbesítéséhez szükséges szállítási adatok (név, cím, e-mail cím, telefonszám) kezelése.</p>
+
+        <h3>4. Adatok megőrzési ideje</h3>
+        <p>A megrendeléshez kapcsolódó adatokat a szerződés teljesítésétől számított 5 évig őrizzük meg (polgári jogi elévülési idő).</p>
+        <p>A kiállított számlákat a számviteli törvény előírása alapján 8 évig vagyunk kötelesek megőrizni.</p>
+
+        <h3>5. Érintetti jogok</h3>
+        <p>A vásárlót az adatkezeléssel kapcsolatban az alábbi jogok illetik meg:</p>
+        <p>Hozzáféréshez való jog: Tájékoztatást kérhet a kezelt adatairól.</p>
+        <p>Helyesbítés joga: Kérheti az adatok javítását, ha azok pontatlanok.</p>
+        <p>Törlés joga: Kérheti az adatok törlését (kivéve, ha az adatkezelést jogszabály írja elő, pl. számlázás).</p>
+        <p>Tiltakozás joga: Tiltakozhat az adatkezelés ellen.</p>
+
+        <h3>6. Kapcsolattartás és az Adatkezelő adatai</h3>
+        <p>Amennyiben adatvédelmi aggályod merül fel, vagy élni kívánsz a jogaiddal, kérjük, keresd meg adatkezelőnket az alábbi elérhetőségeken:</p>
+        <p class="privacy-owner">Adatkezelő: Kubena Colton<br>Cím: 8000 Székesfehérvár, Donát utca 64.<br>E-mail: aevummagyarorszag@gmail.com</p>
+
+        <h3>7. Jogorvoslat</h3>
+        <p>Amennyiben a megkeresésedet nem sikerült orvosolni, panaszt nyújthatsz be a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (NAIH):</p>
+        <p>Cím: 1055 Budapest, Falk Miksa utca 9-11.</p>
+        <p>Weboldal: www.naih.hu</p>
+      </div>
+    </section>
+  </div>
+
+  <footer class="site-footer">
+    <p>© 2026 Aevum Magyarország | <button class="footer-link" type="button" data-open-privacy>Adatkezelési Tájékoztató</button> | <button class="footer-link" type="button" data-open-cookie>Süti Tájékoztató</button></p>
+  </footer>
+
+  <div class="privacy-modal" id="cookieModal" hidden>
+    <div class="privacy-modal-backdrop" data-cookie-close></div>
+    <section class="privacy-dialog" role="dialog" aria-modal="true" aria-labelledby="cookieTitle">
+      <button class="privacy-close" type="button" data-close-cookie aria-label="Bezárás">×</button>
+      <h2 id="cookieTitle">Süti Tájékoztató</h2>
+      <div class="privacy-text">
+        <p>Weboldalunk kizárólag a technikai működéshez elengedhetetlen (alapvető) sütiket használ a GitHub Pages és a Google Forms szolgáltatások keretében. Ezek a fájlok nem gyűjtenek személyes adatokat, és nem alkalmasak a felhasználók követésére.</p>
+        <p>A sütik használatát a böngésződ beállításaiban bármikor korlátozhatod vagy törölheted.</p>
+        <p><strong>Adatkezelő:</strong> Aevum<br><strong>Kapcsolat:</strong> aevummagyarorszag@gmail.com</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

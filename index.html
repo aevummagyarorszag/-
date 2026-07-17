@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aevum órák</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Aevum főoldal">
+      <span class="brand-mark"></span>
+      Aevum
+    </a>
+    <nav class="nav" aria-label="Fő navigáció">
+      <a href="#collection">Kollekció</a>
+      <a href="#craft">Kivitel</a>
+      <a href="#journal">Napló</a>
+      <a href="#contact">Kapcsolat</a>
+    </nav>
+    <a class="icon-button bubble-button primary cart-link" href="checkout.html" aria-label="Kosár megnyitása">
+      <svg class="shopping-cart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" aria-hidden="true">
+        <path d="M 22 32 C 27 32, 29 36, 31 42 L 36 62 A 6 6 0 0 0 42 67 L 68 67 A 6 6 0 0 0 74 62 L 78 42 A 3 3 0 0 0 75 39 L 33 39" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="43" cy="77" r="5" fill="#ffffff"/>
+        <circle cx="67" cy="77" r="5" fill="#ffffff"/>
+      </svg>
+      Kosár
+      <span class="cart-count" data-cart-count>0</span>
+    </a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Automata órák modern mindennapokra</p>
+        <h1>Aevum</h1>
+        <p class="hero-text">Prémium megjelenésű, elegáns karórák jó áron. Letisztult formavilág, megbízható minőség és gyors hazai szállítás. Válaszd ki az új kedvencedet!</p>
+        <div class="hero-actions">
+          <a class="bubble-button primary" href="#collection">Kollekció megnyitása</a>
+          <a class="bubble-button secondary" href="#craft">Kivitel felfedezése</a>
+        </div>
+      </div>
+
+      <div class="hero-stage reveal" aria-label="Kiemelt Aevum óra">
+        <div class="watch-orbit image-orbit">
+          <div class="watch-shadow image-shadow"></div>
+          <div class="feature-watch-wrap" data-scroll-watch>
+            <img class="feature-watch-image" src="assets/aevum-feature-watch.png" alt="Aevum kék számlapos rozsdamentes acél óra">
+            <div class="feature-watch-hands" aria-hidden="true">
+              <span class="feature-hand feature-hour-hand"></span>
+              <span class="feature-hand feature-minute-hand"></span>
+              <span class="feature-pin"></span>
+            </div>
+          </div>
+        </div>
+        <div class="floating-note note-one">egyedi dizájn</div>
+        <div class="floating-note note-two">rozsdamentes acél</div>
+      </div>
+    </section>
+
+    <section id="collection" class="section collection">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Új kollekció</p>
+        <h2>Tiszta formák, tartós jelenlét.</h2>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card reveal" data-product-card="aevum" data-default-product="aevum">
+          <div class="product-media">
+            <button class="gallery-button gallery-prev" type="button" data-gallery-prev aria-label="Előző Aevum kép">‹</button>
+            <img class="product-image" data-gallery-image data-zoomable-image src="assets/products/aevum-1.webp" alt="Aevum óra piros digitális számlappal">
+            <button class="gallery-button gallery-next" type="button" data-gallery-next aria-label="Következő Aevum kép">›</button>
+            <div class="gallery-dots" data-gallery-dots aria-label="Aevum képek"></div>
+          </div>
+          <div class="product-copy">
+            <h3>Aevum</h3>
+            <p>Új digitális kijelzős vintage kvarcóra.</p>
+            <div class="product-meta-row">
+              <div class="color-picker" aria-label="Aevum színválasztó">
+                <span>Szín</span>
+                <button class="color-swatch red active" type="button" data-variant="aevum" aria-label="Piros Aevum" title="Piros Aevum"></button>
+              </div>
+              <span class="stock-pill">készleten ✓</span>
+            </div>
+          </div>
+          <div class="card-footer product-actions">
+            <span class="product-price" data-product-price>9 630 Ft</span>
+            <div class="quantity-control" data-product-control="aevum">
+              <button class="bubble-button primary small add-to-cart" type="button" data-product="aevum">
+                <span class="add-label">Hozzáadás</span>
+                <span class="item-count" data-item-count="aevum">0</span>
+              </button>
+              <button class="minus-button bubble-button primary" type="button" data-minus-product="aevum" aria-label="Egy Aevum kivétele">-</button>
+              <button class="plus-button bubble-button primary" type="button" data-plus-product="aevum" aria-label="Még egy Aevum hozzáadása">+</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card reveal" data-product-card="opium" data-default-product="opium-red">
+          <div class="product-media">
+            <button class="gallery-button gallery-prev" type="button" data-gallery-prev aria-label="Előző Opium kép">‹</button>
+            <img class="product-image" data-gallery-image data-zoomable-image src="assets/products/opium-red-1.jpg" alt="Opium óra piros számlappal">
+            <button class="gallery-button gallery-next" type="button" data-gallery-next aria-label="Következő Opium kép">›</button>
+            <div class="gallery-dots" data-gallery-dots aria-label="Opium képek"></div>
+          </div>
+          <div class="product-copy">
+            <h3>Opium</h3>
+            <p>Retró karóra egyedi, faragott díszítő mintákkal.</p>
+            <div class="product-meta-row">
+              <div class="color-picker" aria-label="Opium színválasztó">
+                <span>Szín</span>
+                <button class="color-swatch red active" type="button" data-variant="opium-red" aria-label="Piros Opium" title="Piros Opium"></button>
+                <button class="color-swatch silver" type="button" data-variant="opium-silver" aria-label="Ezüst Opium" title="Ezüst Opium"></button>
+                <button class="color-swatch green" type="button" data-variant="opium-green" aria-label="Zöld Opium" title="Zöld Opium"></button>
+              </div>
+              <span class="stock-pill">készleten ✓</span>
+            </div>
+          </div>
+          <div class="card-footer product-actions">
+            <span class="product-price" data-product-price>8 990 Ft</span>
+            <div class="quantity-control" data-product-control="opium-red">
+              <button class="bubble-button primary small add-to-cart" type="button" data-product="opium-red">
+                <span class="add-label">Hozzáadás</span>
+                <span class="item-count" data-item-count="opium-red">0</span>
+              </button>
+              <button class="minus-button bubble-button primary" type="button" data-minus-product="opium-red" aria-label="Egy Opium kivétele">-</button>
+              <button class="plus-button bubble-button primary" type="button" data-plus-product="opium-red" aria-label="Még egy Opium hozzáadása">+</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card reveal" data-product-card="gothic" data-default-product="gothic-silver">
+          <div class="product-media">
+            <button class="gallery-button gallery-prev" type="button" data-gallery-prev aria-label="Előző Gothic kép">‹</button>
+            <img class="product-image" data-gallery-image data-zoomable-image src="assets/products/gothic-silver-1.jpg" alt="Gothic óra ezüst számlappal">
+            <button class="gallery-button gallery-next" type="button" data-gallery-next aria-label="Következő Gothic kép">›</button>
+            <div class="gallery-dots" data-gallery-dots aria-label="Gothic képek"></div>
+          </div>
+          <div class="product-copy">
+            <h3>Gothic</h3>
+            <p>A számlap körüli bonyolult kialakítás futurisztikus és merész megjelenést ad.</p>
+            <div class="product-meta-row">
+              <div class="color-picker" aria-label="Gothic színválasztó">
+                <span>Szín</span>
+                <button class="color-swatch silver active" type="button" data-variant="gothic-silver" aria-label="Ezüst Gothic" title="Ezüst Gothic"></button>
+                <button class="color-swatch blue" type="button" data-variant="gothic-blue" aria-label="Kék Gothic" title="Kék Gothic"></button>
+                <button class="color-swatch red" type="button" data-variant="gothic-red" aria-label="Piros Gothic" title="Piros Gothic"></button>
+              </div>
+              <span class="stock-pill">készleten ✓</span>
+            </div>
+          </div>
+          <div class="card-footer product-actions">
+            <span class="product-price" data-product-price>8 990 Ft</span>
+            <div class="quantity-control" data-product-control="gothic-silver">
+              <button class="bubble-button primary small add-to-cart" type="button" data-product="gothic-silver">
+                <span class="add-label">Hozzáadás</span>
+                <span class="item-count" data-item-count="gothic-silver">0</span>
+              </button>
+              <button class="minus-button bubble-button primary" type="button" data-minus-product="gothic-silver" aria-label="Egy Gothic kivétele">-</button>
+              <button class="plus-button bubble-button primary" type="button" data-plus-product="gothic-silver" aria-label="Még egy Gothic hozzáadása">+</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card reveal" data-product-card="strap-adjuster" data-default-product="strap-adjuster-gold">
+          <div class="product-media">
+            <img class="product-image" data-gallery-image data-zoomable-image src="assets/products/strap-adjuster-gold.jpg" alt="Óraszíj állító arany színben">
+          </div>
+          <div class="product-copy">
+            <h3>Óraszíj állító</h3>
+            <p>Praktikus eszköz fém óraszíjak pontos állításához.</p>
+            <div class="product-meta-row">
+              <div class="color-picker" aria-label="Óraszíj állító színválasztó">
+                <span>Szín</span>
+                <button class="color-swatch gold active" type="button" data-variant="strap-adjuster-gold" aria-label="Arany Óraszíj állító" title="Arany Óraszíj állító"></button>
+                <button class="color-swatch red" type="button" data-variant="strap-adjuster-red" aria-label="Piros Óraszíj állító" title="Piros Óraszíj állító"></button>
+              </div>
+              <span class="stock-pill">készleten ✓</span>
+            </div>
+          </div>
+          <div class="card-footer product-actions">
+            <span class="product-price" data-product-price>290 Ft</span>
+            <div class="quantity-control" data-product-control="strap-adjuster-gold">
+              <button class="bubble-button primary small add-to-cart" type="button" data-product="strap-adjuster-gold">
+                <span class="add-label">Hozzáadás</span>
+                <span class="item-count" data-item-count="strap-adjuster-gold">0</span>
+              </button>
+              <button class="minus-button bubble-button primary" type="button" data-minus-product="strap-adjuster-gold" aria-label="Egy Óraszíj állító kivétele">-</button>
+              <button class="plus-button bubble-button primary" type="button" data-plus-product="strap-adjuster-gold" aria-label="Még egy Óraszíj állító hozzáadása">+</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card reveal" data-product-card="premium-adjuster" data-default-product="premium-adjuster">
+          <div class="product-media">
+            <img class="product-image" data-gallery-image data-zoomable-image src="assets/products/premium-adjuster.jpg" alt="Prémium Óraszíj állító fekete színben">
+          </div>
+          <div class="product-copy">
+            <h3>Prémium Óraszíj állító</h3>
+            <p>Masszívabb kivitelű Óraszíj állító finom munkához.</p>
+            <div class="product-meta-row">
+              <div class="color-picker" aria-label="Prémium Óraszíj állító színválasztó">
+                <span>Kivitel</span>
+                <button class="color-swatch black active" type="button" data-variant="premium-adjuster" aria-label="Fekete prémium Óraszíj állító" title="Fekete prémium Óraszíj állító"></button>
+              </div>
+              <span class="stock-pill">készleten ✓</span>
+            </div>
+          </div>
+          <div class="card-footer product-actions">
+            <span class="product-price" data-product-price>390 Ft</span>
+            <div class="quantity-control" data-product-control="premium-adjuster">
+              <button class="bubble-button primary small add-to-cart" type="button" data-product="premium-adjuster">
+                <span class="add-label">Hozzáadás</span>
+                <span class="item-count" data-item-count="premium-adjuster">0</span>
+              </button>
+              <button class="minus-button bubble-button primary" type="button" data-minus-product="premium-adjuster" aria-label="Egy Prémium Óraszíj állító kivétele">-</button>
+              <button class="plus-button bubble-button primary" type="button" data-plus-product="premium-adjuster" aria-label="Még egy Prémium Óraszíj állító hozzáadása">+</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card reveal" data-product-card="premium-box" data-default-product="premium-box">
+          <div class="product-media">
+            <button class="gallery-button gallery-prev" type="button" data-gallery-prev aria-label="Előző Prémium doboz kép">‹</button>
+            <img class="product-image" data-gallery-image data-zoomable-image src="assets/products/premium-box-1.jpg" alt="Prémium óradoboz">
+            <button class="gallery-button gallery-next" type="button" data-gallery-next aria-label="Következő Prémium doboz kép">›</button>
+            <div class="gallery-dots" data-gallery-dots aria-label="Prémium doboz képek"></div>
+          </div>
+          <div class="product-copy">
+            <h3>Prémium doboz</h3>
+            <p>Elegáns, párnázott doboz az óra igényes tárolásához vagy ajándékozásához.</p>
+            <div class="product-meta-row">
+              <div class="color-picker" aria-label="Prémium doboz színválasztó">
+                <span>Kivitel</span>
+                <button class="color-swatch black active" type="button" data-variant="premium-box" aria-label="Fekete prémium doboz" title="Fekete prémium doboz"></button>
+              </div>
+              <span class="stock-pill">készleten ✓</span>
+            </div>
+          </div>
+          <div class="card-footer product-actions">
+            <span class="product-price" data-product-price>990 Ft</span>
+            <div class="quantity-control" data-product-control="premium-box">
+              <button class="bubble-button primary small add-to-cart" type="button" data-product="premium-box">
+                <span class="add-label">Hozzáadás</span>
+                <span class="item-count" data-item-count="premium-box">0</span>
+              </button>
+              <button class="minus-button bubble-button primary" type="button" data-minus-product="premium-box" aria-label="Egy Prémium doboz kivétele">-</button>
+              <button class="plus-button bubble-button primary" type="button" data-plus-product="premium-box" aria-label="Még egy Prémium doboz hozzáadása">+</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="craft" class="section craft reveal">
+      <div>
+        <p class="eyebrow">Úgy készült, hogy természetesen illeszkedjen a napodba</p>
+        <h2>Minden részlet a kiválló megjelenésért.</h2>
+      </div>
+      <div class="craft-list">
+        <div>
+          <span>01</span>
+          <p>Strapabíró üveg, karcálló.</p>
+        </div>
+        <div>
+          <span>02</span>
+          <p>Rozsdamentes acél szíj, ami állítható.</p>
+        </div>
+        <div>
+          <span>03</span>
+          <p>Dobozolt, ajándék elem és szíj állító.</p>
+        </div>
+        <div>
+          <span>04</span>
+          <p>Vízálló.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="journal" class="section journal">
+      <div class="journal-panel reveal">
+        <p class="eyebrow">Aevum napló</p>
+        <h2>A precizitás személyessé válik.</h2>
+        <p>Vásárold meg a szetted legjobb elemét, az órát.</p>
+        <a class="bubble-button primary" href="checkout.html">Vásárlás indítása</a>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div class="contact-panel reveal">
+        <div class="contact-info">
+          <p class="eyebrow">Kapcsolat</p>
+          <h2>Írj nekünk bármikor.</h2>
+          <a class="contact-email" href="mailto:aevummagyarorszag@gmail.com">aevummagyarorszag@gmail.com</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Aevum Magyarország | <button class="footer-link" type="button" data-open-privacy>Adatkezelési Tájékoztató</button> | <button class="footer-link" type="button" data-open-cookie>Süti Tájékoztató</button></p>
+  </footer>
+
+  <div class="privacy-modal" id="privacyModal" hidden>
+    <div class="privacy-modal-backdrop" data-privacy-close></div>
+    <section class="privacy-dialog" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+      <button class="privacy-close" type="button" data-close-privacy aria-label="Bezárás">×</button>
+      <h2 id="privacyTitle">Adatkezelési Tájékoztató</h2>
+      <div class="privacy-text" data-privacy-content></div>
+    </section>
+  </div>
+
+  <div class="privacy-modal" id="cookieModal" hidden>
+    <div class="privacy-modal-backdrop" data-cookie-close></div>
+    <section class="privacy-dialog" role="dialog" aria-modal="true" aria-labelledby="cookieTitle">
+      <button class="privacy-close" type="button" data-close-cookie aria-label="Bezárás">×</button>
+      <h2 id="cookieTitle">Süti Tájékoztató</h2>
+      <div class="privacy-text">
+        <p>Weboldalunk kizárólag a technikai működéshez elengedhetetlen (alapvető) sütiket használ a GitHub Pages és a Google Forms szolgáltatások keretében. Ezek a fájlok nem gyűjtenek személyes adatokat, és nem alkalmasak a felhasználók követésére.</p>
+        <p>A sütik használatát a böngésződ beállításaiban bármikor korlátozhatod vagy törölheted.</p>
+        <p><strong>Adatkezelő:</strong> Aevum<br><strong>Kapcsolat:</strong> aevummagyarorszag@gmail.com</p>
+      </div>
+    </section>
+  </div>
+
+
+  <div class="image-zoom-modal" id="imageZoomModal" hidden>
+    <div class="image-zoom-backdrop" data-image-zoom-close></div>
+    <section class="image-zoom-dialog" role="dialog" aria-modal="true" aria-label="Termékkép nagyítása">
+      <button class="image-zoom-close" type="button" data-close-image-zoom aria-label="Bezárás">×</button>
+      <div class="image-zoom-frame">
+        <img id="imageZoomImage" class="image-zoom-image" alt="">
+      </div>
+      <div class="zoom-controls" aria-label="Nagyítás vezérlése">
+        <button class="bubble-button small" type="button" data-zoom-out aria-label="Kicsinyítés">-</button>
+        <button class="bubble-button small primary" type="button" data-zoom-in aria-label="Nagyítás">+</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
