@@ -442,7 +442,6 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-
 const imageZoomModal = document.querySelector("#imageZoomModal");
 const imageZoomImage = document.querySelector("#imageZoomImage");
 const imageZoomCloseButtons = document.querySelectorAll("[data-close-image-zoom], [data-image-zoom-close]");
@@ -570,7 +569,7 @@ const checkoutForm = document.querySelector("#checkoutForm");
 const formNote = document.querySelector("#formNote");
 
 if (checkoutForm && formNote) {
-  checkoutForm.addEventListener("submit", (event) => {
+  checkoutForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!checkoutForm.reportValidity()) {
       return;
@@ -582,11 +581,44 @@ if (checkoutForm && formNote) {
       return;
     }
 
-    const formData = new FormData(checkoutForm);
-    const buyerName = String(formData.get("name") || "Vásárló").trim() || "Vásárló";
-    sessionStorage.setItem("aevumBuyerName", buyerName);
-    localStorage.removeItem("aevumCart");
-    window.location.href = `thankyou.html?nev=${encodeURIComponent(buyerName)}`;
+    const cart = getCart();
+    const cartDetails = Object.entries(cart)
+      .map(([id, q]) => `${products[id].name} (${q} db)`)
+      .join(", ");
+
+    const subtotal = Object.entries(cart).reduce((sum, [id, q]) => sum + products[id].price * q, 0);
+    const discount = hasStudentDiscount() ? Math.round(subtotal * studentDiscountRate) : 0;
+    const total = subtotal - discount + shippingFee;
+
+    const hiddenTermek = document.getElementById('hiddenTermek');
+    const hiddenKedvezmenyes = document.getElementById('hiddenKedvezmenyes');
+    const hiddenOsszeg = document.getElementById('hiddenOsszeg');
+
+    if (hiddenTermek) hiddenTermek.value = cartDetails;
+    if (hiddenKedvezmenyes) hiddenKedvezmenyes.value = hasStudentDiscount() ? "Igen" : "Nem";
+    if (hiddenOsszeg) hiddenOsszeg.value = `${total} Ft`;
+
+    formNote.textContent = "Rendelés küldése folyamatban...";
+
+    try {
+      const formData = new FormData(checkoutForm);
+      const response = await fetch(checkoutForm.action, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const buyerName = String(formData.get("nev") || "Vásárló").trim() || "Vásárló";
+        sessionStorage.setItem("aevumBuyerName", buyerName);
+        localStorage.removeItem("aevumCart");
+        window.location.href = `thankyou.html?nev=${encodeURIComponent(buyerName)}`;
+      } else {
+        throw new Error("Hiba a szerveroldali küldésben");
+      }
+    } catch (error) {
+      console.error(error);
+      formNote.textContent = "Hiba történt a rendelés elküldése során. Kérlek próbáld újra!";
+    }
   });
 }
 
