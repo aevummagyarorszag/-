@@ -5,8 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aevum köszönet</title>
   <link rel="stylesheet" href="styles.css">
+  <script>
+    window.aevumLoaderTimer = window.setTimeout(function () {
+      document.documentElement.classList.add("show-page-loader");
+    }, 900);
+    window.addEventListener("load", function () {
+      window.clearTimeout(window.aevumLoaderTimer);
+      document.documentElement.classList.remove("show-page-loader");
+    });
+  </script>
 </head>
 <body>
+  <div class="page-loader" role="status" aria-live="polite">
+    <span class="loader-ring" aria-hidden="true"></span>
+    <span>Betöltés...</span>
+  </div>
+
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="Vissza az Aevum főoldalra">
       <span class="brand-mark"></span>
@@ -30,6 +44,66 @@
       </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Aevum Magyarország | <button class="footer-link" type="button" data-open-terms>Általános Szerződési Feltételek</button> | <button class="footer-link" type="button" data-open-privacy>Adatkezelési Tájékoztató</button> | <button class="footer-link" type="button" data-open-cookie>Süti Tájékoztató</button></p>
+  </footer>
+
+  <div class="privacy-modal" id="termsModal" hidden>
+    <div class="privacy-modal-backdrop" data-terms-close></div>
+    <section class="privacy-dialog" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+      <button class="privacy-close" type="button" data-close-terms aria-label="Bezárás">×</button>
+      <h2 id="termsTitle">Általános Szerződési Feltételek (ÁSZF)</h2>
+      <div class="privacy-text">
+        <h3>Bevezetés</h3>
+        <p>Jelen Általános Szerződési Feltételek (a továbbiakban: ÁSZF) Kubena Colton egyéni vállalkozó (a továbbiakban: Szolgáltató) által üzemeltetett Aevum Magyarország webáruházban történő vásárlás jogi feltételeit és a felek közötti jogokat, kötelezettségeket szabályozza.</p>
+        <p>A webáruházban történő megrendelés elküldésével a Vásárló kijelenti, hogy a jelen ÁSZF feltételeit megismerte, elfogadja és magára nézve kötelezőnek ismeri el.</p>
+
+        <h3>A Szolgáltató (Eladó) adatai</h3>
+        <p>Név: Kubena Colton E.V.<br>Székhely: 8000 Székesfehérvár, Donát utca 64.<br>Adószám: [Ide jön az adószámod]<br>Nyilvántartási szám: [Ide jön a nyilvántartási számod]<br>E-mail cím: aevummagyarorszag@gmail.com<br>Tárhelyszolgáltató: GitHub Inc. (88 Colin P. Kelly Jr. St, San Francisco, CA 94107, USA, support@github.com)</p>
+
+        <h3>Megvásárolható termékek és árak</h3>
+        <p>A webáruházban megjelenített termékek árai magyar forintban (Ft) értendők, és bruttó árak (a Szolgáltató alanyi adómentes, így áfa nem terheli az árakat).</p>
+        <p>A termékek árai a szállítási költséget nem tartalmazzák. A szállítási díj a rendelési folyamat során, a végösszeg előtt külön feltüntetésre kerül.</p>
+
+        <h3>A rendelés menete és a szerződés létrejötte</h3>
+        <p>A vásárlás regisztráció nélkül, a kosár és a megrendelő űrlap kitöltésével történik. A rendelés leadásával a felek között elektronikus úton megkötött szerződés jön létre, amely nem minősül írásbeli szerződésnek, azt a Szolgáltató nem iktatja. A szerződés nyelve a magyar.</p>
+        <p>A rendelés beérkezéséről a Szolgáltató a Google Sheets/Forms rendszerén keresztül, valamint manuálisan visszaigazoló e-mailt küld a Vásárlónak.</p>
+
+        <h3>Fizetési és szállítási feltételek</h3>
+        <p>Fizetési módok: Utánvétel (fizetés a futárnál készpénzzel vagy bankkártyával a csomag átvételekor).</p>
+        <p>Szállítási mód: A csomagok kézbesítését a GLS General Logistics Systems Hungary Kft. végzi.</p>
+        <p>Szállítási idő: A rendelés visszaigazolásától számított általában 1-3 munkanap.</p>
+        <p>Számlázás: A vásárlásról szóló elektronikus számlát a KBOSS.hu Kft. (Számlázz.hu) rendszerén keresztül állítjuk ki, és e-mailben küldjük meg a Vásárlónak.</p>
+
+        <h3>Elállási jog (14 napos pénzvisszafizetési garancia)</h3>
+        <p>A fogyasztónak minősülő Vásárló a termék átvételétől számított 14 napon belül jogosult indokolás nélkül elállni a vásárlástól (a 45/2014. (II. 26.) Korm. rendelet alapján).</p>
+        <p>Az elállás menete: A Vásárlónak az elállási szándékát egyértelmű e-mailben (aevummagyarorszag@gmail.com) kell jeleznie.</p>
+        <p>A visszaküldés költsége: A termék visszaküldésének közvetlen költsége a Vásárlót terheli.</p>
+        <p>Visszatérítés: A Szolgáltató a termék sértetlen állapotban történő visszaérkezését követő 14 napon belül visszatéríti a Vásárló által megfizetett teljes összeget (a termék árát és az eredeti szállítási díjat) banki átutalással.</p>
+
+        <h3>Kellékszavatosság és jótállás</h3>
+        <p>A vásárolt termékekre a Polgári Törvénykönyv szabályai szerint kellékszavatosság vonatkozik. Ha a termék gyári hibás vagy a szállítás során megsérült, a Vásárló elsősorban kijavítást vagy cserét, másodsorban árleszállítást kérhet, vagy elállhat a szerződéstől. Nem érvényesíthető a szavatossági jog, ha a hiba a nem rendeltetésszerű használatból (pl. beázás nem vízálló óránál, mechanikai sérülés) ered.</p>
+
+        <h3>Panaszkezelés és jogviták</h3>
+        <p>A Vásárló a termékkel vagy a Szolgáltató tevékenységével kapcsolatos panaszaival a aevummagyarorszag@gmail.com e-mail címen fordulhat a Szolgáltatóhoz, amit 30 napon belül kivizsgálunk és megválaszolunk.</p>
+        <p>Amennyiben a jogvita nem rendeződik, a Vásárló a lakóhelye szerint illetékes Békéltető Testülethez vagy a Fogyasztóvédelmi Hatósághoz fordulhat.</p>
+        <p>Jelen ÁSZF hatályos: 2026. július 16-tól visszavonásig.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="privacy-modal" id="cookieModal" hidden>
+    <div class="privacy-modal-backdrop" data-cookie-close></div>
+    <section class="privacy-dialog" role="dialog" aria-modal="true" aria-labelledby="cookieTitle">
+      <button class="privacy-close" type="button" data-close-cookie aria-label="Bezárás">×</button>
+      <h2 id="cookieTitle">Süti Tájékoztató</h2>
+      <div class="privacy-text">
+        <p>Weboldalunk kizárólag a technikai működéshez elengedhetetlen (alapvető) sütiket használ a GitHub Pages és a Google Forms szolgáltatások keretében.</p>
+        <p><strong>Adatkezelő:</strong> Kubena Colton<br><strong>Kapcsolat:</strong> aevummagyarorszag@gmail.com</p>
+      </div>
+    </section>
+  </div>
 
   <script src="app.js"></script>
 </body>
