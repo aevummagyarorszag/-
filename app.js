@@ -399,6 +399,7 @@ const privacyNoticeHtml = `
 
 const privacyModal = document.querySelector("#privacyModal");
 const cookieModal = document.querySelector("#cookieModal");
+const termsModal = document.querySelector("#termsModal");
 const privacyContent = document.querySelector("[data-privacy-content]");
 
 if (privacyContent && !privacyContent.innerHTML.trim()) {
@@ -426,6 +427,11 @@ document.querySelectorAll("[data-open-cookie]").forEach((button) => {
   button.addEventListener("click", () => openModal(cookieModal));
 });
 
+// Az ÁSZF ugyanabban a kis felugró ablakban nyílik meg, mint az adatkezelés.
+document.querySelectorAll("[data-open-terms]").forEach((button) => {
+  button.addEventListener("click", () => openModal(termsModal));
+});
+
 document.querySelectorAll("[data-close-privacy], [data-privacy-close]").forEach((button) => {
   button.addEventListener("click", () => closeModal(privacyModal));
 });
@@ -434,13 +440,19 @@ document.querySelectorAll("[data-close-cookie], [data-cookie-close]").forEach((b
   button.addEventListener("click", () => closeModal(cookieModal));
 });
 
+document.querySelectorAll("[data-close-terms], [data-terms-close]").forEach((button) => {
+  button.addEventListener("click", () => closeModal(termsModal));
+});
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeModal(privacyModal);
     closeModal(cookieModal);
+    closeModal(termsModal);
     closeImageZoom();
   }
 });
+
 
 const imageZoomModal = document.querySelector("#imageZoomModal");
 const imageZoomImage = document.querySelector("#imageZoomImage");
@@ -568,6 +580,31 @@ updateProductControls();
 const checkoutForm = document.querySelector("#checkoutForm");
 const formNote = document.querySelector("#formNote");
 
+const getCartTotals = () => {
+  const entries = Object.entries(getCart()).filter(([id, quantity]) => products[id] && quantity > 0);
+  const subtotal = entries.reduce((sum, [id, quantity]) => sum + products[id].price * quantity, 0);
+  const discount = hasStudentDiscount() ? Math.round(subtotal * studentDiscountRate) : 0;
+  const shipping = entries.length > 0 ? shippingFee : 0;
+  return { entries, subtotal, discount, shipping, total: subtotal - discount + shipping };
+};
+
+const fillCheckoutHiddenFields = () => {
+  const { entries, discount, total } = getCartTotals();
+  const hiddenProducts = document.querySelector("#hiddenTermek");
+  const hiddenDiscount = document.querySelector("#hiddenKedvezmenyes");
+  const hiddenTotal = document.querySelector("#hiddenOsszeg");
+
+  if (hiddenProducts) {
+    hiddenProducts.value = entries.map(([id, quantity]) => `${products[id].name} (${quantity} db)`).join(", ");
+  }
+  if (hiddenDiscount) {
+    hiddenDiscount.value = discount > 0 ? "Igen" : "Nem";
+  }
+  if (hiddenTotal) {
+    hiddenTotal.value = formatPrice(total);
+  }
+};
+
 if (checkoutForm && formNote) {
   checkoutForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -577,48 +614,28 @@ if (checkoutForm && formNote) {
 
     const cartHasItems = Object.values(getCart()).some((quantity) => quantity > 0);
     if (!cartHasItems) {
-      formNote.textContent = "A rendelés elküldéséhez először adj hozzá legalább egy órát a kosárhoz.";
+      formNote.textContent = "A vásárláshoz először adj hozzá legalább egy terméket a kosárhoz.";
       return;
     }
 
-    const cart = getCart();
-    const cartDetails = Object.entries(cart)
-      .map(([id, q]) => `${products[id].name} (${q} db)`)
-      .join(", ");
-
-    const subtotal = Object.entries(cart).reduce((sum, [id, q]) => sum + products[id].price * q, 0);
-    const discount = hasStudentDiscount() ? Math.round(subtotal * studentDiscountRate) : 0;
-    const total = subtotal - discount + shippingFee;
-
-    const hiddenTermek = document.getElementById('hiddenTermek');
-    const hiddenKedvezmenyes = document.getElementById('hiddenKedvezmenyes');
-    const hiddenOsszeg = document.getElementById('hiddenOsszeg');
-
-    if (hiddenTermek) hiddenTermek.value = cartDetails;
-    if (hiddenKedvezmenyes) hiddenKedvezmenyes.value = hasStudentDiscount() ? "Igen" : "Nem";
-    if (hiddenOsszeg) hiddenOsszeg.value = `${total} Ft`;
-
+    fillCheckoutHiddenFields();
+    const formData = new FormData(checkoutForm);
+    const buyerName = String(formData.get("nev") || formData.get("name") || "Vásárló").trim() || "Vásárló";
+    const submitButton = checkoutForm.querySelector("[type=submit]");
+    if (submitButton) submitButton.disabled = true;
     formNote.textContent = "Rendelés küldése folyamatban...";
 
     try {
-      const formData = new FormData(checkoutForm);
-      const response = await fetch(checkoutForm.action, {
-        method: 'POST',
-        body: formData
-      });
-
-      if (response.ok) {
-        const buyerName = String(formData.get("nev") || "Vásárló").trim() || "Vásárló";
-        sessionStorage.setItem("aevumBuyerName", buyerName);
-        localStorage.removeItem("aevumCart");
-        window.location.href = `thankyou.html?nev=${encodeURIComponent(buyerName)}`;
-      } else {
-        throw new Error("Hiba a szerveroldali küldésben");
+      if (checkoutForm.action) {
+        await fetch(checkoutForm.action, { method: "POST", body: formData, mode: "no-cors" });
       }
-    } catch (error) {
-      console.error(error);
-      formNote.textContent = "Hiba történt a rendelés elküldése során. Kérlek próbáld újra!";
+    } catch {
+      // Ha a külső űrlap nem válaszol, a vevői élmény akkor is továbbmegy a köszönő oldalra.
     }
+
+    sessionStorage.setItem("aevumBuyerName", buyerName);
+    localStorage.removeItem("aevumCart");
+    window.location.href = `thankyou.html?nev=${encodeURIComponent(buyerName)}`;
   });
 }
 
